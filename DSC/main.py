@@ -110,8 +110,7 @@ if __name__ == "__main__":
     import warnings
 
     parser = argparse.ArgumentParser(description='DSCNet')
-    parser.add_argument('--db', default='coil20',
-                        choices=['coil20', 'coil100', 'orl', 'reuters10k', 'stl'])
+    parser.add_argument('--db', default='custom', type=str, help='dataset name')
     parser.add_argument('--show-freq', default=10, type=int)
     parser.add_argument('--ae-weights', default=None)
     parser.add_argument('--save-dir', default='results')
@@ -130,24 +129,21 @@ if __name__ == "__main__":
 
         # network and optimization parameters
         num_sample = x.shape[0]
-        epochs = 40
-        weight_coef = 1.0
-        weight_selfExp = 75
+        #epochs = 
+        #weight_coef = 1.0
+        #weight_selfExp = 75
 
         # post clustering parameters
-        alpha = 0.04  # threshold of C
-        dim_subspace = 12  # dimension of each subspace
-        ro = 8  #
+        #alpha = 0.04  # threshold of C
+        #dim_subspace = 12  # dimension of each subspace
+        #ro = 8  #
         warnings.warn("You can uncomment line#64 in post_clustering.py to get better result for this dataset!")
 
     dscnet = DSCNet(num_sample=num_sample)
     dscnet.to(device)
 
-    # load the pretrained weights which are provided by the original author in
-    # https://github.com/panji1990/Deep-subspace-clustering-networks
-    ae_state_dict = torch.load('pretrained_weights_original/%s.pkl' % db)
-    dscnet.ae.load_state_dict(ae_state_dict)
-    print("Pretrained ae weights are loaded successfully.")
+    if args.ae_weights is not None:
+        dscnet.ae.load_state_dict(torch.load(args.ae_weights))
 
     train(dscnet, x, y, epochs, weight_coef=weight_coef, weight_selfExp=weight_selfExp,
           alpha=alpha, dim_subspace=dim_subspace, ro=ro, show=args.show_freq, device=device)
