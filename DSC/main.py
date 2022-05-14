@@ -124,16 +124,12 @@ if __name__ == "__main__":
 
     device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
     db = args.db
-    if db == 'coil20':
+    if db == 'custom':
         # load data
-        data = sio.loadmat('datasets/COIL20.mat')
-        x, y = data['fea'].reshape((-1, 1, 32, 32)), data['gnd']
-        y = np.squeeze(y - 1)  # y in [0, 1, ..., K-1]
+        # x, y =
 
         # network and optimization parameters
         num_sample = x.shape[0]
-        channels = [1, 15]
-        kernels = [3]
         epochs = 40
         weight_coef = 1.0
         weight_selfExp = 75
@@ -144,7 +140,7 @@ if __name__ == "__main__":
         ro = 8  #
         warnings.warn("You can uncomment line#64 in post_clustering.py to get better result for this dataset!")
 
-    dscnet = DSCNet(num_sample=num_sample, channels=channels, kernels=kernels)
+    dscnet = DSCNet(num_sample=num_sample)
     dscnet.to(device)
 
     # load the pretrained weights which are provided by the original author in
