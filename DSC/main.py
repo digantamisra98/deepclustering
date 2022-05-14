@@ -1,7 +1,3 @@
-"""
-By Xifeng Guo (guoxifeng1990@163.com), May 13, 2020.
-All rights reserved.
-"""
 import torch
 import torch.nn as nn
 import torch.optim as optim
