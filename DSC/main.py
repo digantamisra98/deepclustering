@@ -38,6 +38,8 @@ class VAE(nn.Module):
         std = torch.exp(0.5 * logvar)
         eps = torch.randn_like(std)
         return mu + eps * std
+    
+### The above VAE might have some issues so you can define your own generative model there. 
 
 
 class SelfExpression(nn.Module):
@@ -120,7 +122,7 @@ if __name__ == "__main__":
     device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
     db = args.db
     if db == 'custom':
-        # load data
+        # load data similar to the example from DGR in CL_timeseries
         # x, y =
 
         # network and optimization parameters
